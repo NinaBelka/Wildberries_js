@@ -47,8 +47,8 @@ modalCart.addEventListener('click', event => {
 
 // goods
 
-const more = document.querySelector('.more'),
-	navigationLink = document.querySelectorAll('.navigation-link'),
+const viewAll = document.querySelectorAll('.view-all'),
+	navigationLink = document.querySelectorAll('.navigation-link:not(.view-all)'),
 	longGoodsList = document.querySelector('.long-goods-list');
 
 const getGoods = async function () {
@@ -88,9 +88,13 @@ const renderCards = function (data) {
 	document.body.classList.add('show-goods');
 };
 
-more.addEventListener('click', function (event) {
+const showAll = function (event) {
 	event.preventDefault();
 	getGoods().then(renderCards);
+};
+
+viewAll.forEach(function (elem) {
+	elem.addEventListener('click', showAll);
 });
 
 const filterCards = function (field, value) {
