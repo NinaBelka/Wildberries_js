@@ -10,9 +10,7 @@ const mySwiper = new Swiper('.swiper-container', {
 
 // cart
 const buttonCart = document.querySelector('.button-cart'),
-	modalCart = document.querySelector('#modal-cart'),
-	modalClose = document.querySelector('.modal-close');
-
+	modalCart = document.querySelector('#modal-cart');
 
 const openModal = function () {
 	modalCart.classList.add('show');
@@ -23,14 +21,20 @@ const closeModal = function () {
 };
 
 buttonCart.addEventListener('click', openModal);
-modalClose.addEventListener('click', closeModal);
+
+modalCart.addEventListener('click', event => {
+	const target = event.target;
+	if (target.classList.contains('overlay') || target.classList.contains('modal-close')) {
+		closeModal();
+	}
+});
 
 // scroll smooth
 {
 	const scrollLinks = document.querySelectorAll('a.scroll-link');
 
 	for (let i = 0; i < scrollLinks.length; i++) {
-		scrollLinks[i].addEventListener('click', function (event) {
+		scrollLinks[i].addEventListener('click', event => {
 			event.preventDefault();
 			const id = scrollLinks[i].getAttribute('href');
 			document.querySelector(id).scrollIntoView({
