@@ -59,19 +59,19 @@ const getGoods = async function () {
 	return await result.json();
 };
 
-const createCard = function (objCard) {
+const createCard = function ({ label, name, img, description, id, price }) {
 	const card = document.createElement('div');
 	card.className = 'col-lg-3 col-sm-6';
 
 	card.innerHTML = `
 		<div class="goods-card">
-			${objCard.label ?
-			`<span class="label">${objCard.label}</span>` : ''}
-			<img src="db/${objCard.img}" alt="${objCard.name}" class="goods-image">
-			<h3 class="goods-title">${objCard.name}</h3>
-			<p class="goods-description">${objCard.description}</p>
-			<button class="button goods-card-btn add-to-cart" data-id="${objCard.id}">
-				<span class="button-price">$${objCard.price}</span>
+			${label ?
+			`<span class="label">${label}</span>` : ''}
+			<img src="db/${img}" alt="${name}" class="goods-image">
+			<h3 class="goods-title">${name}</h3>
+			<p class="goods-description">${description}</p>
+			<button class="button goods-card-btn add-to-cart" data-id="${id}">
+				<span class="button-price">$${price}</span>
 			</button>
 		</div>
 	`;
