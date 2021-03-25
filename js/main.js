@@ -49,7 +49,9 @@ modalCart.addEventListener('click', event => {
 
 const viewAll = document.querySelectorAll('.view-all'),
 	navigationLink = document.querySelectorAll('.navigation-link:not(.view-all)'),
-	longGoodsList = document.querySelector('.long-goods-list');
+	longGoodsList = document.querySelector('.long-goods-list'),
+	showAccessories = document.querySelectorAll('.show-accessories'),
+	showClothing = document.querySelectorAll('.show-clothing');
 
 const getGoods = async function () {
 	const result = await fetch('db/db.json');
@@ -114,5 +116,19 @@ navigationLink.forEach(function (link) {
 		const field = link.dataset.field;
 		const value = link.textContent;
 		filterCards(field, value);
+	});
+});
+
+showAccessories.forEach(item => {
+	item.addEventListener('click', event => {
+		event.preventDefault();
+		filterCards('category', 'Accessories');
+	});
+});
+
+showClothing.forEach(item => {
+	item.addEventListener('click', event => {
+		event.preventDefault();
+		filterCards('category', 'Clothing');
 	});
 });
