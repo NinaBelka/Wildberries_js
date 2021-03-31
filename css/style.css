@@ -59,7 +59,6 @@ button {
     display: inline-block;
 }
 
-
 .button-icon,
 .button-price {
     margin-right: 10px;
@@ -464,7 +463,11 @@ button {
 .col-delete {
     width: 5px;
 }
-
+.btn-danger {
+    background-color: tomato;
+    display: block;
+    margin-left: auto;
+}
 
 @media (max-width: 1200px) {
     .slide-1 {
