@@ -1,3 +1,5 @@
+'use strict';
+
 const mySwiper = new Swiper('.swiper-container', {
 	loop: true,
 
@@ -33,9 +35,10 @@ const cart = {
 	cartGoods: [],
 
 	countQuantity() {
-		cartCount.textContent = this.cartGoods.reduce((sum, item) => {
+		const count = this.cartGoods.reduce((sum, item) => {
 			return sum + item.count;
-		}, 0);
+		 }, 0);
+		cartCount.textContent = count ? count : '';
 	},
 
 	clearCart() {

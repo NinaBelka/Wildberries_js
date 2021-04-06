@@ -12,6 +12,12 @@ img {
     height: auto;
 }
 
+button:active,
+button:focus {
+    outline: none;
+}
+
+
 .header {
     padding: 15px 0;
 }
