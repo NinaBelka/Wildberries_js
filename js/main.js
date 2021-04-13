@@ -32,18 +32,27 @@ const getGoods = async () => {
 };
 
 const cart = {
-	cartGoods: [],
+	cartGoods: JSON.parse(localStorage.getItem('cartWilb')) || [],
+
+	updateLocalStorage() {
+		localStorage.setItem('cartWilb', JSON.stringify(this.cartGoods));
+	},
+
+	getCountCartGoods() {
+		return this.cartGoods.length;
+	},
 
 	countQuantity() {
 		const count = this.cartGoods.reduce((sum, item) => {
 			return sum + item.count;
-		 }, 0);
+		}, 0);
 		cartCount.textContent = count ? count : '';
 	},
 
 	clearCart() {
 		this.cartGoods.length = 0;
 		this.countQuantity();
+		this.updateLocalStorage();
 		this.renderCart();
 	},
 
@@ -75,8 +84,9 @@ const cart = {
 
 	deleteGood(id) {
 		this.cartGoods = this.cartGoods.filter(item => id !== item.id);
-		this.renderCart();
 		this.countQuantity();
+		this.updateLocalStorage();
+		this.renderCart();
 	},
 
 	minusGood(id) {
@@ -90,8 +100,9 @@ const cart = {
 				break;
 			}
 		}
-		this.renderCart();
 		this.countQuantity();
+		this.updateLocalStorage();
+		this.renderCart();
 	},
 
 	plusGood(id) {
@@ -101,8 +112,9 @@ const cart = {
 				break;
 			}
 		}
-		this.renderCart();
 		this.countQuantity();
+		this.updateLocalStorage();
+		this.renderCart();
 	},
 	addCartGoods(id) {
 		const goodItem = this.cartGoods.find(item => item.id === id);
@@ -118,6 +130,7 @@ const cart = {
 						price,
 						count: 1,
 					});
+					this.updateLocalStorage();
 					this.countQuantity();
 				});
 		};
@@ -253,4 +266,67 @@ showClothing.forEach(item => {
 		event.preventDefault();
 		filterCards('category', 'Clothing');
 	});
+});
+
+// day 4
+
+const modalForm = document.querySelector('.modal-form');
+
+const postData = dataUser => fetch('server.php', {
+	method: 'POST',
+	body: dataUser,
+});
+
+const validForm = (formData) => {
+	let valid = false;
+	for (const [, value] of formData) {
+		if (value.trim()) {
+			valid = true;
+		} else {
+			valid = false;
+			break;
+		}
+	}
+	return valid;
+}
+
+modalForm.addEventListener('submit', event => {
+	event.preventDefault();
+	const formData = new FormData(modalForm);
+
+	if (validForm(formData) && cart.getCountCartGoods()) {
+
+		const data = {};
+
+		for (const [name, value] of formData) {
+			data[name] = value;
+		}
+
+		data.cart = cart.cartGoods;
+
+		postData(JSON.stringify(data))
+			.then(response => {
+				if (!response.ok) {
+					throw new Error(response.status);
+				}
+				alert('Ваш заказ успешно отправлен. С Вами свяжутся в ближайшее время');
+				console.log(response.statusText);
+			})
+			.catch(err => {
+				alert('К сожалению, произошла ошибка. Повторите попытку позже');
+				console.error(err);
+			})
+			.finally(() => {
+				closeModal();
+				modalForm.reset();
+				cart.clearCart();
+			});
+	} else {
+		if (!cart.getCountCartGoods()) {
+			alert('Добавьте товары в корзину!')
+		}
+		if (!validForm(formData)) {
+			alert('Необходимо заполнить все поля!')
+		}
+	}
 });

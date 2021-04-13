@@ -13,10 +13,11 @@ img {
 }
 
 button:active,
-button:focus {
+button:focus,
+input:active,
+input:focus {
     outline: none;
 }
-
 
 .header {
     padding: 15px 0;
@@ -469,6 +470,7 @@ button {
 .col-delete {
     width: 5px;
 }
+
 .btn-danger {
     background-color: tomato;
     display: block;
